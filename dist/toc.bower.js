@@ -36,7 +36,7 @@ $.fn.toc = function(options) {
     timeout = setTimeout(function() {
       var top = $(window).scrollTop(),
         highlighted, closest = Number.MAX_VALUE, index = 0;
-      
+
       for (var i = 0, c = headingOffsets.length; i < c; i++) {
         var currentClosest = Math.abs(headingOffsets[i] - top);
         if (currentClosest < closest) {
@@ -44,10 +44,10 @@ $.fn.toc = function(options) {
           closest = currentClosest;
         }
       }
-      
+
       $('li', self).removeClass(activeClassName);
       highlighted = $('li:eq('+ index +')', self).addClass(activeClassName);
-      opts.onHighlight(highlighted);      
+      opts.onHighlight(highlighted);
     }, 50);
   };
   if (opts.highlightOnScroll) {
@@ -99,9 +99,8 @@ jQuery.fn.toc.defaults = {
   listType: '<ul/>',
   selectors: 'h1,h2,h3',
   smoothScrolling: function(target, options, callback) {
-    $(target).smoothScroller({
-      offset: options.scrollToOffset
-    }).on('smoothScrollerComplete', function() {
+    options.offset = options.scrollToOffset;
+    $(target).smoothScroller(options).on('smoothScrollerComplete', function() {
       callback();
     });
   },
@@ -119,12 +118,12 @@ jQuery.fn.toc.defaults = {
     var candidateId = $(heading).text().replace(/[^a-z0-9]/ig, ' ').replace(/\s+/g, '-').toLowerCase();
     if (verboseIdCache[candidateId]) {
       var j = 2;
-      
+
       while(verboseIdCache[candidateId + j]) {
         j++;
       }
       candidateId = candidateId + '-' + j;
-      
+
     }
     verboseIdCache[candidateId] = true;
 
